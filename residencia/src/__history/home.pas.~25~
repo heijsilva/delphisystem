@@ -1,0 +1,65 @@
+unit home;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MongoDB,
+  FireDAC.Phys.MongoDBDef, System.Rtti, System.JSON.Types, System.JSON.Readers,
+  System.JSON.BSON, System.JSON.Builders, FireDAC.Phys.MongoDBWrapper,
+  FireDAC.VCLUI.Wait, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB, FireDAC.Comp.Client;
+
+type
+  TForm1 = class(TForm)
+    FDConnection1: TFDConnection;
+    FDPhysMongoDriverLink1: TFDPhysMongoDriverLink;
+    pnlInfo: TPanel;
+    btnConexao: TButton;
+  private
+    FMongoConn: TFDConnection;
+    procedure conectar();
+    procedure desconectar();
+    procedure btnConexaoNewClick(); // Novo método
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.conectar();
+begin
+  try
+    FDConnection1.Connected := True;
+    FMongoConn := FDConnection1; // Referencia o objeto de conexão
+    pnlInfo.Caption := 'Conexão efetuada com sucesso';
+    btnConexao.Caption := 'Desconectar';
+  except
+    on e: Exception do
+      pnlInfo.Caption := 'Erro ao conectar ao banco de dados' + #13#10 + e.Message;
+  end;
+end;
+
+procedure TForm1.desconectar();
+begin
+  FDConnection1.Connected := False;
+  btnConexao.Caption := 'Conectar';
+  pnlInfo.Caption := 'Efetuado desconexão do MongoDB';
+end;
+
+// Novo método para gerenciar a conexão
+procedure TForm1.btnConexaoNewClick();
+begin
+  if (FDConnection1.Connected) then
+    desconectar()
+  else
+    conectar();
+end;
+
+end.

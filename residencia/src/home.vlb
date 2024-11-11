@@ -1,0 +1,16 @@
+﻿[FDConnection1]
+Coordinates=175,1,104,36
+
+[FDPhysMongoDriverLink1]
+Coordinates=175,56,164,36
+
+[pnlInfo]
+Coordinates=10,10,53,58
+
+[btnConexao]
+Coordinates=73,10,84,58
+Visible=True
+
+[]
+Coordinates=74,77,91,36
+
